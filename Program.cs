@@ -1,4 +1,5 @@
 ﻿using System;
+using Queues;
 
 namespace deque_dotnetcore
 {
@@ -6,6 +7,8 @@ namespace deque_dotnetcore
     {
         static void Main(string[] args)
         {
+
+            Deque deque = new Deque();
             Console.WriteLine("Hello World!");
         }
     }
