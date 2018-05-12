@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Queues;
 
 namespace Queues
@@ -40,20 +39,6 @@ namespace Queues
             _back = new List<T>();
         }
 
-        public Deque(int capacity)
-        {
-            if (capacity < 0) 
-            {
-                throw new ArgumentException("Capacity cannot be negative");
-            }
-
-            int temp = capacity/2;
-            int temp2 = capacity - temp;
-
-            _front = new List<T>(temp);
-            _back = new List<T>(temp2);
-        }
-
         public Deque(IEnumerable<T> backCollection) 
             : this(backCollection, null)
         {
@@ -90,7 +75,7 @@ namespace Queues
 
         #region API
 
-        public void Push(T item)
+        public void Prepend(T item)
         {
             if (_frontDeleted > 0 && _front.Count == _front.Capacity)
             {
@@ -101,18 +86,18 @@ namespace Queues
             _front.Add(item);
         }
 
-        public void Push(IEnumerable<T> range)
+        public void Prepend(IEnumerable<T> range)
         {
             if (range != null)
             {
                 foreach(T item in range)
                 {
-                    this.Push(item);
+                    this.Prepend(item);
                 }
             }
         }
 
-        public void AddLast(T item)
+        public void Push(T item)
         {      
             if (_backDeleted > 0 && _back.Count == _back.Capacity)
             {
@@ -123,13 +108,13 @@ namespace Queues
             _back.Add(item);
         }
 
-        public void AddLast(IEnumerable<T> range)
+        public void Push(IEnumerable<T> range)
         {
             if (range != null)
             {
                 foreach(T item in range) 
                 {
-                    this.AddLast(item);
+                    this.Push(item);
                 }
             }
         }

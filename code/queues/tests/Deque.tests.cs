@@ -1,3 +1,4 @@
+using System;
 using Queues;
 using FluentAssertions;
 using Xunit;
@@ -7,10 +8,25 @@ namespace Queues.Tests
     public class DequeTests
     {
         [Fact]
+        public void QueueCount_EmptyCollection()
+        {
+            // given
+            int[] arr = null;
+
+            // when
+            Action d = () => new Deque<int>(arr);
+            
+            // then
+            d.Should().Throw<ArgumentException>()
+                .WithMessage("Collections cannot both be null");
+        }
+
+        [Fact]
         public void QueueCount_SingleItem()
         {
             // given
             int[] arr = { 1 };
+
             // when
             var d = new Deque<int>(arr);
 
@@ -53,7 +69,7 @@ namespace Queues.Tests
             var d = new Deque<int>();
 
             // when
-            d.Push(number);
+            d.Prepend(number);
 
             // then
             d.Count.Should().Be(1);
@@ -67,7 +83,7 @@ namespace Queues.Tests
             var d = new Deque<int>();
 
             // when
-            d.Push(arr);
+            d.Prepend(arr);
 
             // then
             d.Count.Should().Be(arr.Length);
@@ -81,7 +97,7 @@ namespace Queues.Tests
             var d = new Deque<int>();
 
             // when
-            d.AddLast(number);
+            d.Push(number);
 
             // then
             d.Count.Should().Be(1);
@@ -95,7 +111,7 @@ namespace Queues.Tests
             var d = new Deque<int>();
 
             // when
-            d.AddLast(arr);
+            d.Push(arr);
 
             // then
             d.Count.Should().Be(arr.Length);
@@ -107,7 +123,7 @@ namespace Queues.Tests
             // given
             int number = 5;
             var d = new Deque<int>();
-            d.Push(number);
+            d.Prepend(number);
 
             // when
             d.PopFirst();
@@ -137,7 +153,7 @@ namespace Queues.Tests
             // given
             int number = 5;
             var d = new Deque<int>();
-            d.AddLast(number);
+            d.Push(number);
 
             // when
             d.PopFirst();
