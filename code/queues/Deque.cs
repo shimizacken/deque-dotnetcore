@@ -21,11 +21,49 @@ namespace Queues
 
         #region Properties
 
+        public int Capacity
+        {
+            get 
+            {
+                return _front.Capacity + _back.Capacity;
+            }
+        }
+
         public int Count
         {
             get 
             {
                 return _front.Count + _back.Count - _frontDeleted - _backDeleted;
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get 
+            { 
+                return this.Count == 0;
+            }
+        }
+
+        public IEnumerable<T> Reversed
+        {
+            get
+            {
+                if (_back.Count - _backDeleted > 0)
+                {
+                    for(int i = _back.Count - 1; i >= _backDeleted; i--) 
+                    {
+                        yield return _back[i];
+                    }
+                }
+
+                if (_front.Count - _frontDeleted > 0)
+                {       
+                    for(int i = _frontDeleted; i < _front.Count; i++) 
+                    {
+                        yield return _front[i];
+                    }
+                }
             }
         }
 
@@ -37,6 +75,19 @@ namespace Queues
         {
             _front = new List<T>();
             _back = new List<T>();
+        }
+
+        public Deque(int capacity)
+        {
+            if (capacity < 0) 
+            {
+                throw new ArgumentException("Capacity cannot be negative");
+            }
+
+            int temp = capacity/2;
+            int temp2 = capacity - temp;
+            _front = new List<T>(temp);
+            _back = new List<T>(temp2);
         }
 
         public Deque(IEnumerable<T> backCollection) 
@@ -117,6 +168,90 @@ namespace Queues
                     this.Push(item);
                 }
             }
+        }
+
+        public void Reverse()
+        {
+            List<T> temp = _front;
+            _front = _back;
+            _back = temp;
+            int temp2 = _frontDeleted;
+            _frontDeleted = _backDeleted;
+            _backDeleted = temp2;
+        }
+
+        public T[] ToArray()
+        {
+            if (this.Count == 0) return new T[0];
+            T[] result = new T[this.Count];
+            this.CopyTo(result, 0);
+            return result;
+        } 
+
+        public void TrimExcess()
+        {
+            if (_frontDeleted > 0)
+            {
+                _front.RemoveRange(0, _frontDeleted);
+                _frontDeleted = 0;
+            }
+
+            if (_backDeleted > 0)
+            {
+                _back.RemoveRange(0, _backDeleted);
+                _backDeleted = 0;
+            }
+
+            _front.TrimExcess();
+            _back.TrimExcess();
+        }
+        
+        public bool TryPeekFirst(out T item)
+        {
+            if (!this.IsEmpty)
+            {
+                item = this.PeekFirst();
+                return true;
+            }
+
+            item = default(T);
+            return false;
+        }
+
+        public bool TryPeekLast(out T item)
+        {
+            if (!this.IsEmpty)
+            {
+                item = this.PeekLast();
+                return true;
+            }
+
+            item = default(T);
+            return false;
+        }
+
+        public bool TryPopFirst(out T item)
+        {
+            if (!this.IsEmpty)
+            {
+                item = this.PopFirst();
+                return true;
+            }
+
+            item = default(T);
+            return false;
+        }
+
+        public bool TryPopLast(out T item)
+        {
+            if (!this.IsEmpty)
+            {
+                item = this.PopLast();
+                return true;
+            }
+
+            item = default(T);
+            return false;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -236,6 +371,35 @@ namespace Queues
             {
                 array[i++] = item;
             }
+        }
+
+        public bool Contains(T item)
+        {
+            for(int i = _frontDeleted; i < _front.Count; i++)
+            {
+                if (Object.Equals(_front[i], item)) 
+                {
+                    return true;
+                }
+            }
+
+            for(int i = _backDeleted; i < _back.Count; i++)
+            {
+                if (Object.Equals(_back[i], item)) 
+                {
+                    return true;
+                }
+            }
+        
+            return false;
+        }
+
+        public void Clear()
+        {
+            _front.Clear();
+            _back.Clear();
+            _frontDeleted = 0;
+            _backDeleted = 0;
         }
 
         #endregion
