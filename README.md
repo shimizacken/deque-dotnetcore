@@ -13,7 +13,7 @@
 
 ### Prerequisites
 - .NET Core SDK 2.0.0 or higher
-- .NET Core Runtime 2.0.5 or higher
+- .NET Core Runtime 2.0.7 or higher
 
 ## Usage
 Clone repository
