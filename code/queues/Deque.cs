@@ -12,13 +12,13 @@ namespace Queues
     {
         #region  Fields
 
-        private List<T> front;
+        private List<T> _front;
 
-        private List<T> back;
+        private List<T> _back;
         
-        private int frontDeleted;
+        private int _frontDeleted;
         
-        private int backDeleted;
+        private int _backDeleted;
 
         #endregion
 
@@ -26,12 +26,12 @@ namespace Queues
 
         public int Capacity
         {
-            get { return front.Capacity + back.Capacity; }
+            get { return _front.Capacity + _back.Capacity; }
         }
 
         public int Count
         {
-            get { return front.Count + back.Count - frontDeleted - backDeleted; }
+            get { return _front.Count + _back.Count - _frontDeleted - _backDeleted; }
         }
 
         public bool IsEmpty
@@ -43,14 +43,14 @@ namespace Queues
         {
             get
             {
-                if (back.Count - backDeleted > 0)
+                if (_back.Count - _backDeleted > 0)
                 {
-                for(int i = back.Count - 1; i >= backDeleted; i--) yield return back[i];
+                for(int i = _back.Count - 1; i >= _backDeleted; i--) yield return _back[i];
                 }
 
-                if (front.Count - frontDeleted > 0)
+                if (_front.Count - _frontDeleted > 0)
                 {       
-                for(int i = frontDeleted; i < front.Count; i++) yield return front[i];
+                for(int i = _frontDeleted; i < _front.Count; i++) yield return _front[i];
                 }
             }
         } 
@@ -61,8 +61,8 @@ namespace Queues
 
         public Deque()
         {
-            front = new List<T>();
-            back = new List<T>();
+            _front = new List<T>();
+            _back = new List<T>();
         }
 
         public Deque(int capacity)
@@ -70,8 +70,8 @@ namespace Queues
             if (capacity < 0) throw new ArgumentException("Capacity cannot be negative");
             int temp = capacity/2;
             int temp2 = capacity - temp;
-            front = new List<T>(temp);
-            back = new List<T>(temp2);
+            _front = new List<T>(temp);
+            _back = new List<T>(temp2);
         }
 
         public Deque(IEnumerable<T> backCollection) : this(backCollection, null)
@@ -81,17 +81,17 @@ namespace Queues
         public Deque(IEnumerable<T> backCollection, IEnumerable<T> frontCollection)
         {
             if (backCollection == null && frontCollection == null) throw new ArgumentException("Collections cannot both be null");
-            front = new List<T>();
-            back = new List<T>();
+            _front = new List<T>();
+            _back = new List<T>();
         
             if (backCollection != null)
             {
-                foreach(T item in backCollection) back.Add(item);
+                foreach(T item in backCollection) _back.Add(item);
             }
 
             if (frontCollection != null)
             {
-                foreach(T item in frontCollection) front.Add(item);
+                foreach(T item in frontCollection) _front.Add(item);
             }
         }
 
@@ -101,24 +101,24 @@ namespace Queues
 
         public void AddFirst(T item)
         {
-            if (frontDeleted > 0 && front.Count == front.Capacity)
+            if (_frontDeleted > 0 && _front.Count == _front.Capacity)
             {
-                front.RemoveRange(0, frontDeleted);
-                frontDeleted = 0;
+                _front.RemoveRange(0, _frontDeleted);
+                _frontDeleted = 0;
             }
 
-            front.Add(item);
+            _front.Add(item);
         }
 
         public void AddLast(T item)
         {      
-            if (backDeleted > 0 && back.Count == back.Capacity)
+            if (_backDeleted > 0 && _back.Count == _back.Capacity)
             {
-                back.RemoveRange(0, backDeleted);
-                backDeleted = 0;
+                _back.RemoveRange(0, _backDeleted);
+                _backDeleted = 0;
             }
             
-            back.Add(item);
+            _back.Add(item);
         }
         
         public void AddRangeFirst(IEnumerable<T> range)
@@ -139,22 +139,22 @@ namespace Queues
 
         public void Clear()
         {
-            front.Clear();
-            back.Clear();
-            frontDeleted = 0;
-            backDeleted = 0;
+            _front.Clear();
+            _back.Clear();
+            _frontDeleted = 0;
+            _backDeleted = 0;
         }
 
         public bool Contains(T item)
         {
-            for(int i = frontDeleted; i < front.Count; i++)
+            for(int i = _frontDeleted; i < _front.Count; i++)
             {
-                if (Object.Equals(front[i], item)) return true;
+                if (Object.Equals(_front[i], item)) return true;
             }
 
-            for(int i = backDeleted; i < back.Count; i++)
+            for(int i = _backDeleted; i < _back.Count; i++)
             {
-                if (Object.Equals(back[i], item)) return true;
+                if (Object.Equals(_back[i], item)) return true;
             }
         
             return false;
@@ -175,26 +175,26 @@ namespace Queues
 
         public IEnumerator<T> GetEnumerator()
         {
-            if (front.Count - frontDeleted > 0)
+            if (_front.Count - _frontDeleted > 0)
             {
-                for(int i = front.Count - 1; i >= frontDeleted; i--) yield return front[i];
+                for(int i = _front.Count - 1; i >= _frontDeleted; i--) yield return _front[i];
             }
 
-            if (back.Count - backDeleted > 0)
+            if (_back.Count - _backDeleted > 0)
             {       
-                for(int i = backDeleted; i < back.Count; i++) yield return back[i];
+                for(int i = _backDeleted; i < _back.Count; i++) yield return _back[i];
             }
         }
 
         public T PeekFirst()
         {
-            if(front.Count > frontDeleted)
+            if(_front.Count > _frontDeleted)
             {
-                return front[front.Count - 1];
+                return _front[_front.Count - 1];
             }
-            else if (back.Count > backDeleted)
+            else if (_back.Count > _backDeleted)
             {
-                return back[backDeleted];
+                return _back[_backDeleted];
             }
             else
             {
@@ -204,13 +204,13 @@ namespace Queues
 
         public T PeekLast()
         {
-            if (back.Count > backDeleted)
+            if (_back.Count > _backDeleted)
             {
-                return back[back.Count - 1];
+                return _back[_back.Count - 1];
             }
-            else if (front.Count > frontDeleted)
+            else if (_front.Count > _frontDeleted)
             {
-                return front[frontDeleted];
+                return _front[_frontDeleted];
             }
             else
             {
@@ -222,15 +222,15 @@ namespace Queues
         {
             T result;
 
-            if (front.Count > frontDeleted)
+            if (_front.Count > _frontDeleted)
             {
-                result = front[front.Count - 1];
-                front.RemoveAt(front.Count - 1);
+                result = _front[_front.Count - 1];
+                _front.RemoveAt(_front.Count - 1);
             }
-            else if (back.Count > backDeleted)
+            else if (_back.Count > _backDeleted)
             {
-                result = back[backDeleted];   
-                backDeleted++;
+                result = _back[_backDeleted];   
+                _backDeleted++;
             }
             else
             { 
@@ -245,15 +245,15 @@ namespace Queues
         {
             T result;
 
-            if (back.Count > backDeleted)
+            if (_back.Count > _backDeleted)
             {
-                result = back[back.Count - 1];
-                back.RemoveAt(back.Count - 1);
+                result = _back[_back.Count - 1];
+                _back.RemoveAt(_back.Count - 1);
             }
-            else if (front.Count > frontDeleted)
+            else if (_front.Count > _frontDeleted)
             {
-                result = front[frontDeleted];   
-                frontDeleted++;
+                result = _front[_frontDeleted];   
+                _frontDeleted++;
             }
             else
             { 
@@ -265,12 +265,12 @@ namespace Queues
 
         public void Reverse()
         {
-            List<T> temp = front;
-            front = back;
-            back = temp;
-            int temp2 = frontDeleted;
-            frontDeleted = backDeleted;
-            backDeleted = temp2;
+            List<T> temp = _front;
+            _front = _back;
+            _back = temp;
+            int temp2 = _frontDeleted;
+            _frontDeleted = _backDeleted;
+            _backDeleted = temp2;
         }
 
         public T[] ToArray()
@@ -283,20 +283,20 @@ namespace Queues
 
         public void TrimExcess()
         {
-            if (frontDeleted > 0)
+            if (_frontDeleted > 0)
             {
-                front.RemoveRange(0, frontDeleted);
-                frontDeleted = 0;
+                _front.RemoveRange(0, _frontDeleted);
+                _frontDeleted = 0;
             }
 
-            if (backDeleted > 0)
+            if (_backDeleted > 0)
             {
-                back.RemoveRange(0, backDeleted);
-                backDeleted = 0;
+                _back.RemoveRange(0, _backDeleted);
+                _backDeleted = 0;
             }
 
-            front.TrimExcess();
-            back.TrimExcess();
+            _front.TrimExcess();
+            _back.TrimExcess();
         }
         
         public bool TryPeekFirst(out T item)
