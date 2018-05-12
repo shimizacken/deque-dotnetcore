@@ -137,7 +137,7 @@ namespace Queues
             _front.Add(item);
         }
 
-        public void Prepend(IEnumerable<T> range)
+        public virtual void Prepend(IEnumerable<T> range)
         {
             if (range != null)
             {
@@ -148,7 +148,7 @@ namespace Queues
             }
         }
 
-        public void Push(T item)
+        public virtual void Push(T item)
         {      
             if (_backDeleted > 0 && _back.Count == _back.Capacity)
             {
@@ -159,7 +159,7 @@ namespace Queues
             _back.Add(item);
         }
 
-        public void Push(IEnumerable<T> range)
+        public virtual void Push(IEnumerable<T> range)
         {
             if (range != null)
             {

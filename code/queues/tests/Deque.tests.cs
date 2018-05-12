@@ -62,7 +62,7 @@ namespace Queues.Tests
         }
 
         [Fact]
-        public void AddFirst_SingleItem()
+        public void Prepend_SingleItem()
         {
             // given
             int number = 5;
@@ -76,7 +76,7 @@ namespace Queues.Tests
         }
 
         [Fact]
-        public void AddFirst_RangeItems()
+        public void Prepend_RangeItems()
         {
             // given
             int[] arr = {1, 2, 3, 4, 5};
@@ -90,7 +90,7 @@ namespace Queues.Tests
         }
 
         [Fact]
-        public void AddLast_SingleItem()
+        public void Push_SingleItem()
         {
             // given
             int number = 5;
@@ -104,7 +104,7 @@ namespace Queues.Tests
         }
 
         [Fact]
-        public void AddLast_RangeItems()
+        public void Push_RangeItems()
         {
             // given
             int[] arr = {1, 2, 3, 4, 5};

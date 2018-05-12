@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Queues
@@ -15,11 +13,35 @@ namespace Queues
 
         #region API
 
+        public override void Push(T item)
+        {
+            lock(root)
+            {
+                base.Push(item);
+            }
+        }
+
+        public override void Push(IEnumerable<T> range)
+        {
+            lock(root)
+            {
+                base.Push(range);
+            }
+        }
+
         public override void Prepend(T item)
         {
             lock(root)
             {
                 base.Prepend(item);
+            }
+        }
+
+        public override void Prepend(IEnumerable<T> range)
+        {
+            lock(root)
+            {
+                base.Prepend(range);
             }
         }
 

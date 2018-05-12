@@ -7,37 +7,45 @@ namespace deque_dotnetcore
     {
         static void Main(string[] args)
         {
-            // int[] arrFront = {1, 2, 3};
-            // int[] arrBack = {4, 5, 6};
+            // initiate default
+            Deque<int> d = new Deque<int>();
+            
+            // add single and range at front
+            int[] arr = {1, 2, 3};
 
-            // // create new Deque using these arrays
-            // Deque<int> d = new Deque<int>(arrBack, arrFront);
+            d.Prepend(100);
+            d.Prepend(arr);
 
-            //Console.Write("Or in reverse order : ");
+            Console.Write("after prepend Deque contains:\n");
 
-            // // add at front
-            //Deque<int> d = new Deque<int>();
-            // int[] arr = {1, 2, 3};
-            // d.Prepend(arr);
-            // d.Prepend(100);
+            foreach(int i in d) 
+            {
+                Console.WriteLine("{0}", i);
+            }
 
-            // add at back
-            // Deque<int> d2 = new Deque<int>();
-            // d2.Push(arr);
-            // d2.Push(100);
+            // add single and range at back
+            Deque<int> d2 = new Deque<int>();
+            
+            int[] arr2 = {4, 5, 6};
+            d2.Push(200);
+            d2.Push(arr2);
 
-            // d.Push(1);
-            // d.Push(2);
-            // d.Push(3);
-            // //d.PopFirst();
-            // d.PopLast();
+            Console.Write("after push Deque contains:\n");
 
-            // // iterate from first to last
-            // Console.Write("The Deque contains:\n");
-            // foreach(int i in d) 
-            // {
-            //     Console.WriteLine("\n{0}", i);
-            // }
+            foreach(int i in d2) 
+            {
+                Console.WriteLine("{0}", i);
+            }
+
+            d.PopFirst();
+            d.PopLast();
+
+            Console.Write("after pops Deque contains:\n");
+
+            foreach(int i in d) 
+            {
+                Console.WriteLine("{0}", i);
+            }
 
 
             int number = 5;
@@ -45,11 +53,10 @@ namespace deque_dotnetcore
 
             dSafe.Prepend(number);
 
-            // iterate from first to last
-            Console.Write("The Deque contains:\n");
+            Console.Write("after prepend DequeSafe contains:\n");
             foreach(int i in dSafe) 
             {
-                Console.WriteLine("\n{0}", i);
+                Console.WriteLine("{0}", i);
             }
         }
     }
