@@ -67,7 +67,11 @@ namespace Queues
 
         public Deque(int capacity)
         {
-            if (capacity < 0) throw new ArgumentException("Capacity cannot be negative");
+            if (capacity < 0) 
+            {
+                throw new ArgumentException("Capacity cannot be negative");
+            }
+
             int temp = capacity/2;
             int temp2 = capacity - temp;
             _front = new List<T>(temp);
@@ -110,6 +114,17 @@ namespace Queues
             _front.Add(item);
         }
 
+        public void AddFirst(IEnumerable<T> range)
+        {
+            if (range != null)
+            {
+                foreach(T item in range)
+                {
+                    this.AddFirst(item);
+                }
+            }
+        }
+
         public void AddLast(T item)
         {      
             if (_backDeleted > 0 && _back.Count == _back.Capacity)
@@ -120,29 +135,13 @@ namespace Queues
             
             _back.Add(item);
         }
-        
-        public void AddRangeFirst(IEnumerable<T> range)
-        {
-            if (range != null)
-            {
-                foreach(T item in range) this.AddFirst(item);
-            }
-        }
 
-        public void AddRangeLast(IEnumerable<T> range)
+        public void AddLast(IEnumerable<T> range)
         {
             if (range != null)
             {
                 foreach(T item in range) this.AddLast(item);
             }
-        }
-
-        public void Clear()
-        {
-            _front.Clear();
-            _back.Clear();
-            _frontDeleted = 0;
-            _backDeleted = 0;
         }
 
         public bool Contains(T item)
@@ -158,19 +157,6 @@ namespace Queues
             }
         
             return false;
-        }
-
-        public void CopyTo(T[] array, int index)
-        {
-            if (array == null) throw new ArgumentNullException("Array cannot be null");
-            if (index < 0) throw new ArgumentOutOfRangeException("Index cannot be negative");
-            if (array.Length < index + this.Count) throw new ArgumentException("Index is invalid");
-            int i = index;
-
-            foreach (T item in this)
-            {
-                array[i++] = item;
-            }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -239,7 +225,6 @@ namespace Queues
 
             return result;
         }
-        
 
         public T PopLast()
         {
@@ -262,89 +247,18 @@ namespace Queues
 
             return result;     
         } 
-
-        public void Reverse()
-        {
-            List<T> temp = _front;
-            _front = _back;
-            _back = temp;
-            int temp2 = _frontDeleted;
-            _frontDeleted = _backDeleted;
-            _backDeleted = temp2;
-        }
-
-        public T[] ToArray()
-        {
-            if (this.Count == 0) return new T[0];
-            T[] result = new T[this.Count];
-            this.CopyTo(result, 0);
-            return result;
-        } 
-
-        public void TrimExcess()
-        {
-            if (_frontDeleted > 0)
-            {
-                _front.RemoveRange(0, _frontDeleted);
-                _frontDeleted = 0;
-            }
-
-            if (_backDeleted > 0)
-            {
-                _back.RemoveRange(0, _backDeleted);
-                _backDeleted = 0;
-            }
-
-            _front.TrimExcess();
-            _back.TrimExcess();
-        }
         
-        public bool TryPeekFirst(out T item)
+        public void CopyTo(T[] array, int index)
         {
-            if (!this.IsEmpty)
+            if (array == null) throw new ArgumentNullException("Array cannot be null");
+            if (index < 0) throw new ArgumentOutOfRangeException("Index cannot be negative");
+            if (array.Length < index + this.Count) throw new ArgumentException("Index is invalid");
+            int i = index;
+
+            foreach (T item in this)
             {
-                item = this.PeekFirst();
-                return true;
+                array[i++] = item;
             }
-
-            item = default(T);
-            return false;
-        }
-
-        public bool TryPeekLast(out T item)
-        {
-            if (!this.IsEmpty)
-            {
-                item = this.PeekLast();
-                return true;
-            }
-
-            item = default(T);
-            return false;
-        }
-
-        public bool TryPopFirst(out T item)
-        {
-            if (!this.IsEmpty)
-            {
-                item = this.PopFirst();
-                return true;
-            }
-
-            item = default(T);
-            return false;
-        }
-
-        public bool TryPopLast(out T item)
-        {
-            if (!this.IsEmpty)
-            {
-                item = this.PopLast();
-                return true;
-            }
-
-            item = default(T);
-            return false;
         }
 
         #endregion
