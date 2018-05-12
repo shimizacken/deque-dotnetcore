@@ -4,12 +4,16 @@
 ## API
 | Method        | Description   |
 | ------------- |---------------|
+| Prepend       | insert element at front |
 | Push          | insert element at back |
-| Prepend          | insert element at back |
-| PopFirst      | centered      |
-| PopLast       | centered      |
-| PeekFirst     | are neat      |
-| PeekLast      | are neat      |
+| PopFirst      | remove first element      |
+| PopLast       | remove last element      |
+| PeekFirst     | get the first element      |
+| PeekLast      | get the last element      |
+
+### Prerequisites
+- .NET Core SDK 2.1.200 or higher
+- .NET Core Runtime 2.0.7 or higher
 
 ## Usage
 Clone repository
