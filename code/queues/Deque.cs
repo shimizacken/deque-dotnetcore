@@ -169,42 +169,6 @@ namespace Queues
                 }
             }
         }
-
-        public void Reverse()
-        {
-            List<T> temp = _front;
-            _front = _back;
-            _back = temp;
-            int temp2 = _frontDeleted;
-            _frontDeleted = _backDeleted;
-            _backDeleted = temp2;
-        }
-
-        public T[] ToArray()
-        {
-            if (this.Count == 0) return new T[0];
-            T[] result = new T[this.Count];
-            this.CopyTo(result, 0);
-            return result;
-        } 
-
-        public void TrimExcess()
-        {
-            if (_frontDeleted > 0)
-            {
-                _front.RemoveRange(0, _frontDeleted);
-                _frontDeleted = 0;
-            }
-
-            if (_backDeleted > 0)
-            {
-                _back.RemoveRange(0, _backDeleted);
-                _backDeleted = 0;
-            }
-
-            _front.TrimExcess();
-            _back.TrimExcess();
-        }
         
         public bool TryPeekFirst(out T item)
         {
@@ -252,25 +216,6 @@ namespace Queues
 
             item = default(T);
             return false;
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            if (_front.Count - _frontDeleted > 0)
-            {
-                for(int i = _front.Count - 1; i >= _frontDeleted; i--) 
-                {
-                    yield return _front[i];
-                }
-            }
-
-            if (_back.Count - _backDeleted > 0)
-            {       
-                for(int i = _backDeleted; i < _back.Count; i++) 
-                {
-                    yield return _back[i];
-                }
-            }
         }
 
         public T PeekFirst()
@@ -349,6 +294,60 @@ namespace Queues
             return result;     
         } 
         
+        public IEnumerator<T> GetEnumerator()
+        {
+            if (_front.Count - _frontDeleted > 0)
+            {
+                for(int i = _front.Count - 1; i >= _frontDeleted; i--) 
+                {
+                    yield return _front[i];
+                }
+            }
+
+            if (_back.Count - _backDeleted > 0)
+            {       
+                for(int i = _backDeleted; i < _back.Count; i++) 
+                {
+                    yield return _back[i];
+                }
+            }
+        }
+        
+        public void Reverse()
+        {
+            List<T> temp = _front;
+            _front = _back;
+            _back = temp;
+            int temp2 = _frontDeleted;
+            _frontDeleted = _backDeleted;
+            _backDeleted = temp2;
+        }
+
+        public T[] ToArray()
+        {
+            if (this.Count == 0) return new T[0];
+            T[] result = new T[this.Count];
+            this.CopyTo(result, 0);
+            return result;
+        } 
+
+        public void TrimExcess()
+        {
+            if (_frontDeleted > 0)
+            {
+                _front.RemoveRange(0, _frontDeleted);
+                _frontDeleted = 0;
+            }
+
+            if (_backDeleted > 0)
+            {
+                _back.RemoveRange(0, _backDeleted);
+                _backDeleted = 0;
+            }
+
+            _front.TrimExcess();
+            _back.TrimExcess();
+        }
         public void CopyTo(T[] array, int index)
         {
             if (array == null) 
