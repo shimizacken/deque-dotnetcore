@@ -127,5 +127,64 @@ namespace Queues.Tests
             // then
             d.Count.Should().Be(arr.Length);
         }
+
+        [Fact]
+        public void PopFirst_SingleItemInArray()
+        {
+            // given
+            int number = 5;
+            var d = new Deque<int>();
+            d.AddFirst(number);
+
+            // when
+            d.PopFirst();
+
+            // then
+            d.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public void PopFirst_MultipleItemInArray()
+        {
+            // given
+            int[] arr = { 1, 2, 3, 4, 5 };
+            var d = new Deque<int>(arr);
+
+            // when
+            d.PopFirst();
+
+            // then
+            d.Count.Should().Be(arr.Length - 1);
+            d.PeekFirst().Should().Be(arr[1]);
+        }
+
+        [Fact]
+        public void PopLast_SingleItemInArray()
+        {
+            // given
+            int number = 5;
+            var d = new Deque<int>();
+            d.AddLast(number);
+
+            // when
+            d.PopFirst();
+
+            // then
+            d.Count.Should().Be(0);
+        }
+        [Fact]
+        public void PopLast_MultipleItemInArray()
+        {
+            // given
+            int[] arr = { 1, 2, 3, 4, 5 };
+            var d = new Deque<int>(arr);
+
+            // when
+            d.PopLast();
+
+            // then
+            d.Count.Should().Be(arr.Length - 1);
+            d.PeekLast().Should().Be(arr[3]);
+        }
     }   
 }

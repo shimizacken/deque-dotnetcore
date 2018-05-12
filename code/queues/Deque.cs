@@ -144,21 +144,6 @@ namespace Queues
             }
         }
 
-        public bool Contains(T item)
-        {
-            for(int i = _frontDeleted; i < _front.Count; i++)
-            {
-                if (Object.Equals(_front[i], item)) return true;
-            }
-
-            for(int i = _backDeleted; i < _back.Count; i++)
-            {
-                if (Object.Equals(_back[i], item)) return true;
-            }
-        
-            return false;
-        }
-
         public IEnumerator<T> GetEnumerator()
         {
             if (_front.Count - _frontDeleted > 0)
