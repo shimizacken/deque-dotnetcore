@@ -6,8 +6,6 @@ using Queues;
 
 namespace Queues
 {
-    [Serializable]
-    [ComVisible(false)]
     public class Deque<T> : IEnumerable<T>, ICollection, IEnumerable
     {
         #region  Fields
@@ -24,36 +22,13 @@ namespace Queues
 
         #region Properties
 
-        public int Capacity
-        {
-            get { return _front.Capacity + _back.Capacity; }
-        }
-
         public int Count
         {
-            get { return _front.Count + _back.Count - _frontDeleted - _backDeleted; }
-        }
-
-        public bool IsEmpty
-        {
-            get { return this.Count == 0; }
-        }
-
-        public IEnumerable<T> Reversed
-        {
-            get
+            get 
             {
-                if (_back.Count - _backDeleted > 0)
-                {
-                for(int i = _back.Count - 1; i >= _backDeleted; i--) yield return _back[i];
-                }
-
-                if (_front.Count - _frontDeleted > 0)
-                {       
-                for(int i = _frontDeleted; i < _front.Count; i++) yield return _front[i];
-                }
+                return _front.Count + _back.Count - _frontDeleted - _backDeleted;
             }
-        } 
+        }
 
         #endregion
 
@@ -74,28 +49,40 @@ namespace Queues
 
             int temp = capacity/2;
             int temp2 = capacity - temp;
+
             _front = new List<T>(temp);
             _back = new List<T>(temp2);
         }
 
-        public Deque(IEnumerable<T> backCollection) : this(backCollection, null)
+        public Deque(IEnumerable<T> backCollection) 
+            : this(backCollection, null)
         {
         }      
 
         public Deque(IEnumerable<T> backCollection, IEnumerable<T> frontCollection)
         {
-            if (backCollection == null && frontCollection == null) throw new ArgumentException("Collections cannot both be null");
+            if (backCollection == null && frontCollection == null) 
+            {
+                throw new ArgumentException("Collections cannot both be null");
+            }
+
             _front = new List<T>();
             _back = new List<T>();
         
             if (backCollection != null)
             {
-                foreach(T item in backCollection) _back.Add(item);
+                foreach(T item in backCollection) 
+                {
+                    _back.Add(item);
+                }
             }
 
             if (frontCollection != null)
             {
-                foreach(T item in frontCollection) _front.Add(item);
+                foreach(T item in frontCollection)
+                {
+                    _front.Add(item);
+                }
             }
         }
 
@@ -103,7 +90,7 @@ namespace Queues
 
         #region API
 
-        public void AddFirst(T item)
+        public void Push(T item)
         {
             if (_frontDeleted > 0 && _front.Count == _front.Capacity)
             {
@@ -114,13 +101,13 @@ namespace Queues
             _front.Add(item);
         }
 
-        public void AddFirst(IEnumerable<T> range)
+        public void Push(IEnumerable<T> range)
         {
             if (range != null)
             {
                 foreach(T item in range)
                 {
-                    this.AddFirst(item);
+                    this.Push(item);
                 }
             }
         }
@@ -140,7 +127,10 @@ namespace Queues
         {
             if (range != null)
             {
-                foreach(T item in range) this.AddLast(item);
+                foreach(T item in range) 
+                {
+                    this.AddLast(item);
+                }
             }
         }
 
@@ -148,12 +138,18 @@ namespace Queues
         {
             if (_front.Count - _frontDeleted > 0)
             {
-                for(int i = _front.Count - 1; i >= _frontDeleted; i--) yield return _front[i];
+                for(int i = _front.Count - 1; i >= _frontDeleted; i--) 
+                {
+                    yield return _front[i];
+                }
             }
 
             if (_back.Count - _backDeleted > 0)
             {       
-                for(int i = _backDeleted; i < _back.Count; i++) yield return _back[i];
+                for(int i = _backDeleted; i < _back.Count; i++) 
+                {
+                    yield return _back[i];
+                }
             }
         }
 
@@ -235,9 +231,20 @@ namespace Queues
         
         public void CopyTo(T[] array, int index)
         {
-            if (array == null) throw new ArgumentNullException("Array cannot be null");
-            if (index < 0) throw new ArgumentOutOfRangeException("Index cannot be negative");
-            if (array.Length < index + this.Count) throw new ArgumentException("Index is invalid");
+            if (array == null) 
+            {
+                throw new ArgumentNullException("Array cannot be null");
+            }
+
+            if (index < 0) 
+            {
+                throw new ArgumentOutOfRangeException("Index cannot be negative");
+            }
+            if (array.Length < index + this.Count) 
+            {
+                throw new ArgumentException("Index is invalid");
+            }
+
             int i = index;
 
             foreach (T item in this)
@@ -252,12 +259,18 @@ namespace Queues
         
         bool ICollection.IsSynchronized
         {
-            get { return false; }
+            get 
+            {
+                return false;
+            }
         }
 
         object ICollection.SyncRoot
         {
-            get { return (ICollection)this; }
+            get 
+            {
+                return (ICollection)this;
+            }
         }
 
         #endregion

@@ -7,33 +7,6 @@ namespace Queues.Tests
     public class DequeTests
     {
         [Fact]
-        public void Capacity()
-        {
-            // given
-            int capacity = 8;
-            int[] arr = {1, 2, 3, 4, 5};
-
-            // when
-            var d = new Deque<int>(arr);
-
-            // then
-            d.Capacity.Should().Be(capacity);
-        }
-
-        [Fact]
-        public void CustomCapacity()
-        {
-            // given
-            int capacity = 8;
-
-            // when
-            var d = new Deque<int>(capacity);
-
-            // then
-            d.Capacity.Should().Be(capacity);
-        }
-
-        [Fact]
         public void QueueCount_SingleItem()
         {
             // given
@@ -80,7 +53,7 @@ namespace Queues.Tests
             var d = new Deque<int>();
 
             // when
-            d.AddFirst(number);
+            d.Push(number);
 
             // then
             d.Count.Should().Be(1);
@@ -94,7 +67,7 @@ namespace Queues.Tests
             var d = new Deque<int>();
 
             // when
-            d.AddFirst(arr);
+            d.Push(arr);
 
             // then
             d.Count.Should().Be(arr.Length);
@@ -134,7 +107,7 @@ namespace Queues.Tests
             // given
             int number = 5;
             var d = new Deque<int>();
-            d.AddFirst(number);
+            d.Push(number);
 
             // when
             d.PopFirst();
@@ -172,6 +145,7 @@ namespace Queues.Tests
             // then
             d.Count.Should().Be(0);
         }
+
         [Fact]
         public void PopLast_MultipleItemInArray()
         {
