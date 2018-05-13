@@ -1,4 +1,4 @@
-# 🔥 deque-dotnetcore 🔥
+# deque-dotnetcore
 .NET Core implementation of a `Thread-Safe` [Double-ended queue (deque)](https://en.wikipedia.org/wiki/Double-ended_queue)
 
 ## API
