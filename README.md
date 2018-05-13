@@ -1,4 +1,4 @@
-# 🔥 deque-dotnetcore 🔥
+# deque-dotnetcore
 .NET Core implementation example of a `Thread-Safe` [Double-ended queue (deque)](https://en.wikipedia.org/wiki/Double-ended_queue). It's only example and not fully implemented. Inspired by [Implementing a Double-Ended Queue (or Deque) in C#](https://www.c-sharpcorner.com/UploadFile/b942f9/implementing-a-double-ended-queue-or-deque-in-C-Sharp/) and [A Deque Class in C#](https://www.codeproject.com/Articles/11754/A-Deque-Class-in-C)
 
 ## API
